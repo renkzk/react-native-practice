@@ -1,14 +1,39 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native"
+import { useState } from "react"
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native"
 
 export default function App() {
+  const [taskName, setTaskName] = useState("")
+  const [taskList, setTaskList] = useState([])
+
+  function taskInputHandler(value) {
+    setTaskName(value)
+  }
+  function addTask() {
+    setTaskList((currentTasks) => [...currentTasks, taskName])
+  }
+
   return (
     <View style={styles.appContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Your task name" />
-        <Button title="Add +" />
+        <TextInput
+          style={styles.input}
+          placeholder="Your task name"
+          onChangeText={taskInputHandler}
+        />
+        <Button title="Add +" onPress={addTask} />
       </View>
       <View style={styles.tasksContainer}>
         <Text style={styles.h1}>Tasks to complete:</Text>
+        <FlatList
+          data={taskList}
+          renderItem={(itemData) => {
+            return (
+              <View style={styles.taskItem}>
+                <Text>{itemData.item}</Text>
+              </View>
+            )
+          }}
+        />
       </View>
     </View>
   )
@@ -18,7 +43,7 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     backgroundColor: "whitesmoke",
-    padding: "5%",
+    paddingHorizontal: "5%",
     paddingTop: "20%",
   },
   inputContainer: {
@@ -39,10 +64,23 @@ const styles = StyleSheet.create({
   tasksContainer: {
     flex: 1,
     alignItems: "center",
-    paddingVertical: "5%",
+    paddingTop: "5%",
+    width: "100%",
   },
   h1: {
     fontWeight: "bold",
     fontSize: 20,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  taskItem: {
+    width: 300,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#067cb3",
+    marginVertical: 10,
+    borderRadius: 5,
+    marginHorizontal: "5%",
   },
 })
