@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native"
 import TaskItem from "./components/TaskItem"
 import uuid from "react-native-uuid"
+import TaskCreator from "./components/TaskCreator"
 
 export default function App() {
   const [taskName, setTaskName] = useState("")
@@ -20,14 +21,7 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Your task name"
-          onChangeText={taskInputHandler}
-        />
-        <Button title="Add +" onPress={addTask} />
-      </View>
+      <TaskCreator taskInputHandler={taskInputHandler} addTask={addTask} />
       <View style={styles.tasksContainer}>
         <Text style={styles.h1}>Tasks to complete:</Text>
         <FlatList
@@ -49,21 +43,6 @@ const styles = StyleSheet.create({
     backgroundColor: "whitesmoke",
     paddingHorizontal: "5%",
     paddingTop: "20%",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    borderBottomWidth: 1,
-    paddingBottom: "8%",
-    borderBottomColor: "#cccccc",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    paddingHorizontal: 16,
-    paddingVertical: 5,
-    marginRight: 10,
-    width: "50%",
   },
   tasksContainer: {
     flex: 1,
