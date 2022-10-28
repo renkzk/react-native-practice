@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native"
+import TaskItem from "./components/TaskItem"
+import uuid from "react-native-uuid"
 
 export default function App() {
   const [taskName, setTaskName] = useState("")
@@ -9,7 +11,11 @@ export default function App() {
     setTaskName(value)
   }
   function addTask() {
-    setTaskList((currentTasks) => [...currentTasks, taskName])
+    setTaskList((currentTasks) => [...currentTasks, { name: taskName, id: uuid.v4() }])
+  }
+  function deleteTask(id) {
+    const newTaskList = taskList.filter((task) => task.id !== id)
+    setTaskList(newTaskList)
   }
 
   return (
@@ -26,11 +32,9 @@ export default function App() {
         <Text style={styles.h1}>Tasks to complete:</Text>
         <FlatList
           data={taskList}
-          renderItem={(itemData) => {
+          renderItem={(task) => {
             return (
-              <View style={styles.taskItem}>
-                <Text>{itemData.item}</Text>
-              </View>
+              <TaskItem name={task.item.name} id={task.item.id} deleteTask={deleteTask} />
             )
           }}
         />
@@ -72,15 +76,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
     textAlign: "center",
-  },
-  taskItem: {
-    width: 300,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "#067cb3",
-    marginVertical: 10,
-    borderRadius: 5,
-    marginHorizontal: "5%",
   },
 })
