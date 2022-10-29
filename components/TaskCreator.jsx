@@ -1,12 +1,13 @@
 import { StyleSheet, View, TextInput, Button } from "react-native"
 
-export default function TaskCreator({ taskInputHandler, addTask }) {
+export default function TaskCreator({ taskInputHandler, addTask, taskName }) {
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.input}
         placeholder="Your task name"
         onChangeText={taskInputHandler}
+        value={taskName}
       />
       <Button title="Add +" onPress={addTask} />
     </View>

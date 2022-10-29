@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native"
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native"
 import TaskItem from "./components/TaskItem"
 import uuid from "react-native-uuid"
 import TaskCreator from "./components/TaskCreator"
@@ -12,7 +12,9 @@ export default function App() {
     setTaskName(value)
   }
   function addTask() {
+    if (taskName === "") return
     setTaskList((currentTasks) => [...currentTasks, { name: taskName, id: uuid.v4() }])
+    setTaskName("")
   }
   function deleteTask(id) {
     const newTaskList = taskList.filter((task) => task.id !== id)
@@ -21,8 +23,12 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <TaskCreator taskInputHandler={taskInputHandler} addTask={addTask} />
-      <View style={styles.tasksContainer}>
+      <TaskCreator
+        taskInputHandler={taskInputHandler}
+        addTask={addTask}
+        taskName={taskName}
+      />
+      <View style={styles.tasksContainer} taskName={taskName}>
         <Text style={styles.h1}>Tasks to complete:</Text>
         <FlatList
           data={taskList}

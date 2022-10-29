@@ -1,10 +1,12 @@
-import { StyleSheet, View, Text, Button } from "react-native"
+import { StyleSheet, View, Text, Pressable } from "react-native"
 
 export default function TaskItem({ id, name, deleteTask }) {
   return (
     <View style={styles.taskItem} key={id}>
       <Text>{name}</Text>
-      <Button title="❌" onPress={(e) => deleteTask(id)} />
+      <Pressable style={styles.deleteBtn} onPress={(e) => deleteTask(id)}>
+        <Text>❌</Text>
+      </Pressable>
     </View>
   )
 }
@@ -22,9 +24,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-
-    Button: {
-      background: "none",
-    },
+  },
+  deleteBtn: {
+    backgroundColor: "#067cb3",
+    padding: 10,
+    borderRadius: 5,
   },
 })
